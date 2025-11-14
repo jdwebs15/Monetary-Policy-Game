@@ -20,6 +20,10 @@ let studentName = "";
 let startTime;
 let endTime;
 
+// ------------------------------
+// NAME HANDLING
+// ------------------------------
+
 startBtn.addEventListener("click", () => {
     if (studentNameInput.value.trim() === "") {
         alert("Please enter your name.");
@@ -36,44 +40,82 @@ startBtn.addEventListener("click", () => {
 });
 
 // ------------------------------
-// SCENARIOS
+// 30 UNIQUE SCENARIOS
 // ------------------------------
 
 let scenarios = [];
 
-// 13 Inflation
-for (let i = 0; i < 13; i++) {
+// 13 unique inflation scenarios
+const inflationTexts = [
+    "Inflation is rising rapidly as consumer demand outpaces supply.",
+    "Prices are climbing faster than wages, and the dollar is losing purchasing power.",
+    "Businesses are raising prices due to strong consumer spending.",
+    "The economy is overheating with too much money chasing too few goods.",
+    "Inflation is above the Federal Reserve’s target, indicating excessive economic activity.",
+    "Rapid price increases are seen across food, housing, and energy sectors.",
+    "Strong borrowing and spending are pushing inflation higher.",
+    "Wages and prices are rising too quickly for long-term stability.",
+    "Asset prices, including homes and stocks, are inflating rapidly.",
+    "Cost-of-living increases indicate too much money in circulation.",
+    "Producer prices are rising sharply as firms face strong demand.",
+    "Consumer goods are becoming more expensive month over month.",
+    "Inflation expectations are rising, encouraging businesses to increase prices."
+];
+
+// 13 unique recession scenarios
+const recessionTexts = [
+    "Business investment is slowing and unemployment is rising.",
+    "Consumers are cutting spending, leading to declining sales.",
+    "Economic growth has stalled and layoffs are increasing.",
+    "Wage growth has flattened as businesses freeze hiring.",
+    "Production levels are falling as companies reduce output.",
+    "The housing market is weakening and fewer loans are being taken.",
+    "Retailers report lower demand as households reduce purchases.",
+    "Factories are producing less due to weaker orders.",
+    "Job openings are declining nationwide.",
+    "Companies are delaying expansion plans due to uncertainty.",
+    "Unemployment claims are increasing as more people lose work.",
+    "Banks are issuing fewer loans as demand falls.",
+    "Consumers are saving more and spending less, slowing growth."
+];
+
+// 4 unique neutral scenarios
+const neutralTexts = [
+    "Economic indicators show stable growth with low inflation and steady employment.",
+    "Consumer spending and business investment are balanced, with no major fluctuations.",
+    "Inflation is on target, and unemployment is at healthy levels.",
+    "The economy is functioning smoothly with no signs of overheating or slowdown."
+];
+
+// Build full scenario list
+inflationTexts.forEach(text => {
     scenarios.push({
-        type: "inflation",
-        text: "Prices are rising too quickly and inflation is above target. The economy is overheating.",
+        text,
         correctPolicy: "contractionary",
         tools: ["raiseDiscount", "raiseReserve", "sellBonds"],
-        teacherExplain: "High inflation requires contractionary monetary policy: raise interest rates, raise reserve requirement, or sell bonds."
+        teacherExplain: "High inflation requires contractionary monetary policy to reduce the money supply."
     });
-}
+});
 
-// 13 Recession
-for (let i = 0; i < 13; i++) {
+recessionTexts.forEach(text => {
     scenarios.push({
-        type: "recession",
-        text: "Economic growth is slowing and unemployment is increasing as businesses cut back production.",
+        text,
         correctPolicy: "expansionary",
         tools: ["lowerDiscount", "lowerReserve", "buyBonds"],
-        teacherExplain: "A slowing economy requires expansionary policy: lower discount rate, lower reserve requirement, or buy bonds."
+        teacherExplain: "A slowing economy requires expansionary policy to increase borrowing and spending."
     });
-}
+});
 
-// 4 No-Change
-for (let i = 0; i < 4; i++) {
+neutralTexts.forEach(text => {
     scenarios.push({
-        type: "neutral",
-        text: "The economy is stable with moderate growth, low inflation, and steady employment levels.",
+        text,
         correctPolicy: "nochange",
         tools: [],
-        teacherExplain: "When economic indicators are stable, no change in monetary policy is appropriate."
+        teacherExplain: "Stable economic indicators require no change in monetary policy."
     });
-}
+});
 
+// Shuffle helper
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
@@ -95,7 +137,7 @@ let selectedTool = null;
 const policyBtns = document.querySelectorAll(".policy-btn");
 const toolBtns = document.querySelectorAll(".tool-btn");
 
-function resetButtonStates() {
+function clearHighlights() {
     policyBtns.forEach(btn => btn.classList.remove("selected", "correct", "incorrect"));
     toolBtns.forEach(btn => btn.classList.remove("selected", "correct", "incorrect"));
 }
@@ -108,7 +150,7 @@ function startSimulation() {
 }
 
 function loadQuestion() {
-    resetButtonStates();
+    clearHighlights();
     selectedPolicy = null;
     selectedTool = null;
 
@@ -120,9 +162,13 @@ function loadQuestion() {
     scenarioText.textContent = scenario.text;
     questionCounter.textContent = `Question ${currentIndex + 1} of 30`;
 
-    // Disable tools for no-change scenarios
-    toolBtns.forEach(btn => btn.disabled = (scenario.correctPolicy === "nochange"));
+    // Disable tools if no-change
+    toolBtns.forEach(btn => btn.disabled = scenario.correctPolicy === "nochange");
 }
+
+// ------------------------------
+// BUTTON SELECTION
+// ------------------------------
 
 policyBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -160,37 +206,32 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     let correctPolicy = (selectedPolicy === scenario.correctPolicy);
     let correctTool = scenario.tools.includes(selectedTool);
 
-    // Clear old colors
-    policyBtns.forEach(btn => btn.classList.remove("correct", "incorrect"));
-    toolBtns.forEach(btn => btn.classList.remove("correct", "incorrect"));
+    // Reset previous highlights
+    clearHighlights();
 
-    if (!correctPolicy) {
-        policyBtns.forEach(btn => {
-            if (btn.dataset.policy === selectedPolicy) btn.classList.add("incorrect");
-        });
-        return;
-    }
-
-    if (scenario.correctPolicy !== "nochange" && !correctTool) {
-        toolBtns.forEach(btn => {
-            if (btn.dataset.tool === selectedTool) btn.classList.add("incorrect");
-        });
-        return;
-    }
-
-    // CORRECT ANSWER:
-    score++;
-
+    // Highlight selected policy
     policyBtns.forEach(btn => {
-        if (btn.dataset.policy === selectedPolicy) btn.classList.add("correct");
+        if (btn.dataset.policy === selectedPolicy) {
+            btn.classList.add(correctPolicy ? "correct" : "incorrect");
+        }
     });
 
+    // Highlight selected tool
     if (scenario.correctPolicy !== "nochange") {
         toolBtns.forEach(btn => {
-            if (btn.dataset.tool === selectedTool) btn.classList.add("correct");
+            if (btn.dataset.tool === selectedTool) {
+                btn.classList.add(correctTool ? "correct" : "incorrect");
+            }
         });
     }
 
+    // If incorrect, stop here
+    if (!correctPolicy || (scenario.correctPolicy !== "nochange" && !correctTool)) {
+        return;
+    }
+
+    // Correct answer
+    score++;
     document.getElementById("feedback").textContent = "Correct!";
     document.getElementById("nextBtn").style.display = "block";
 });
@@ -228,7 +269,7 @@ document.getElementById("teacherToggle").addEventListener("click", () => {
 });
 
 // ------------------------------
-// END OF SIMULATION
+// END SIMULATION
 // ------------------------------
 
 function endSimulation() {
@@ -246,10 +287,7 @@ function endSimulation() {
     finalPercent.textContent = ((score / 30) * 100).toFixed(1);
 }
 
-// ------------------------------
-// RESTART
-// ------------------------------
-
+// Restart
 document.getElementById("restartBtn").addEventListener("click", () => {
     finalScreen.classList.remove("active-screen");
     nameScreen.classList.add("active-screen");
