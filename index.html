@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monetary Policy Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <header>
+        <h1>Monetary Policy Simulator</h1>
+        <button id="teacherToggle">Teacher Mode</button>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2 id="scenarioText">Loading scenario...</h2>
+
+            <div class="question-block">
+                <h3>1. Which monetary policy is appropriate?</h3>
+                <div class="button-row">
+                    <button class="choice" data-policy="expansionary">Expansionary Policy</button>
+                    <button class="choice" data-policy="contractionary">Contractionary Policy</button>
+                    <button class="choice" data-policy="nochange">No Change</button>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <h3>2. Choose a policy tool:</h3>
+                <div class="button-grid">
+                    <button class="tool" data-tool="lowerDiscount">Lower Discount Rate</button>
+                    <button class="tool" data-tool="lowerReserve">Lower Reserve Requirement</button>
+                    <button class="tool" data-tool="buyBonds">Buy Bonds</button>
+
+                    <button class="tool" data-tool="raiseDiscount">Raise Discount Rate</button>
+                    <button class="tool" data-tool="raiseReserve">Raise Reserve Requirement</button>
+                    <button class="tool" data-tool="sellBonds">Sell Bonds</button>
+                </div>
+            </div>
+
+            <button id="submitBtn" class="submit">Submit Answer</button>
+
+            <div id="feedback"></div>
+
+            <button id="resetBtn" class="reset">New Scenario</button>
+
+            <div id="teacherInfo" class="teacher-hidden">
+                <h3>Teacher Explanation</h3>
+                <p id="teacherText"></p>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="monetarySim.js"></script>
+</body>
+</html>
