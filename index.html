@@ -8,50 +8,75 @@
 </head>
 <body>
 
-    <header>
+    <!-- NAME ENTRY SCREEN -->
+    <div id="nameScreen" class="screen active-screen">
         <h1>Monetary Policy Simulator</h1>
-        <button id="teacherToggle">Teacher Mode</button>
-    </header>
+        <div class="card">
+            <label for="studentName">Enter Your Name:</label>
+            <input type="text" id="studentName" placeholder="Your name here">
 
-    <main>
-        <section class="card">
-            <h2 id="scenarioText">Loading scenario...</h2>
+            <button id="startBtn" class="submit">Start</button>
+        </div>
+    </div>
+
+    <!-- MAIN QUESTION SCREEN -->
+    <div id="questionScreen" class="screen">
+        <header>
+            <h2>Monetary Policy Simulator</h2>
+            <button id="teacherToggle">Teacher Mode</button>
+        </header>
+
+        <div class="card">
+            <h3 id="questionCounter">Question 1 of 30</h3>
+            <p id="scenarioText"></p>
 
             <div class="question-block">
-                <h3>1. Which monetary policy is appropriate?</h3>
+                <h3>1. Select the appropriate monetary policy:</h3>
                 <div class="button-row">
-                    <button class="choice" data-policy="expansionary">Expansionary Policy</button>
-                    <button class="choice" data-policy="contractionary">Contractionary Policy</button>
-                    <button class="choice" data-policy="nochange">No Change</button>
+                    <button class="policy-btn" data-policy="expansionary">Expansionary</button>
+                    <button class="policy-btn" data-policy="contractionary">Contractionary</button>
+                    <button class="policy-btn" data-policy="nochange">No Change</button>
                 </div>
             </div>
 
             <div class="question-block">
-                <h3>2. Choose a policy tool:</h3>
+                <h3>2. Select the correct tool:</h3>
                 <div class="button-grid">
-                    <button class="tool" data-tool="lowerDiscount">Lower Discount Rate</button>
-                    <button class="tool" data-tool="lowerReserve">Lower Reserve Requirement</button>
-                    <button class="tool" data-tool="buyBonds">Buy Bonds</button>
+                    <button class="tool-btn" data-tool="lowerDiscount">Lower Discount Rate</button>
+                    <button class="tool-btn" data-tool="lowerReserve">Lower Reserve Requirement</button>
+                    <button class="tool-btn" data-tool="buyBonds">Buy Bonds</button>
 
-                    <button class="tool" data-tool="raiseDiscount">Raise Discount Rate</button>
-                    <button class="tool" data-tool="raiseReserve">Raise Reserve Requirement</button>
-                    <button class="tool" data-tool="sellBonds">Sell Bonds</button>
+                    <button class="tool-btn" data-tool="raiseDiscount">Raise Discount Rate</button>
+                    <button class="tool-btn" data-tool="raiseReserve">Raise Reserve Requirement</button>
+                    <button class="tool-btn" data-tool="sellBonds">Sell Bonds</button>
                 </div>
             </div>
 
-            <button id="submitBtn" class="submit">Submit Answer</button>
-
+            <button id="submitBtn" class="submit">Submit</button>
             <div id="feedback"></div>
-
-            <button id="resetBtn" class="reset">New Scenario</button>
+            <button id="nextBtn" class="next">Next Question</button>
 
             <div id="teacherInfo" class="teacher-hidden">
                 <h3>Teacher Explanation</h3>
                 <p id="teacherText"></p>
             </div>
+        </div>
+    </div>
 
-        </section>
-    </main>
+    <!-- FINAL SCORE SCREEN -->
+    <div id="finalScreen" class="screen">
+        <h2>Simulation Complete!</h2>
+        <div class="card">
+            <p><strong>Name:</strong> <span id="finalName"></span></p>
+            <p><strong>Date:</strong> <span id="finalDate"></span></p>
+            <p><strong>Start Time:</strong> <span id="finalStart"></span></p>
+            <p><strong>End Time:</strong> <span id="finalEnd"></span></p>
+            <p><strong>Score:</strong> <span id="finalScore"></span> / 30</p>
+            <p><strong>Accuracy:</strong> <span id="finalPercent"></span>%</p>
+
+            <button id="restartBtn" class="submit">Restart Simulation</button>
+        </div>
+    </div>
 
     <script src="monetarySim.js"></script>
 </body>
