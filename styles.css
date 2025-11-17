@@ -1,1 +1,97 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+.screen {
+    display: none;
+    padding: 20px;
+}
+
+.active-screen {
+    display: block;
+}
+
+.card {
+    background: #222;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+header {
+    background: #b30000;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.policy-btn, .tool-btn, .submit, .next {
+    padding: 12px 16px;
+    border: none;
+    cursor: pointer;
+    background: #444;
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* Hover NEVER overrides selected/correct/incorrect */
+.policy-btn:hover:not(.selected):not(.correct):not(.incorrect),
+.tool-btn:hover:not(.selected):not(.correct):not(.incorrect) {
+    background: #666 !important;
+}
+
+/* Pre-submit selected choice */
+.selected {
+    background: #888 !important; /* YOU CHOSE A LIGHT GRAY */
+    outline: 2px solid white !important;
+}
+
+/* Correct answer */
+.correct {
+    background: green !important;
+    color: white !important;
+}
+
+/* Incorrect answer */
+.incorrect {
+    background: red !important;
+    color: white !important;
+}
+
+.submit {
+    width: 100%;
+    background: #b30000;
+    margin-top: 20px;
+}
+
+.next {
+    width: 100%;
+    background: #444;
+    margin-top: 10px;
+    display: none;
+}
+
+.teacher-hidden {
+    display: none;
+}
+
+.teacher-visible {
+    display: block;
+    background: #333;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-top: 10px;
+}
 
